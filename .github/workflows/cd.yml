@@ -37,15 +37,15 @@ jobs:
           username: ${{ secrets.AZURE_VM_USERNAME }}
           key: ${{ secrets.AZURE_VM_SSH_KEY }}
           script: |
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            echo "${{ secrets.GITHUB_TOKEN }}" | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
-            docker pull ghcr.io/kritzeey/former-frontend:latest
+            sudo docker pull ghcr.io/kritzeey/former-frontend:latest
 
-            docker stop frontend || true
+            sudo docker stop frontend || true
 
-            docker rm frontend || true
+            sudo docker rm frontend || true
             
-            docker run -d \
+            sudo docker run -d \
               --name frontend \
               --restart always \
               -p 80:3000 \
