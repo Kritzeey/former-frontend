@@ -6,7 +6,7 @@ export default function Home() {
     <main>
       <section className="h-screen w-full flex items-center justify-center">
         <div className="flex flex-col gap-4 items-center justify-center">
-          <span className="text-[#86CEFA] font-bold text-8xl">Former</span>
+          <span className="text-[#3373C4] font-bold text-8xl">Former</span>
           <span className="font-bold text-4xl">Create forms, hassle-free.</span>
           <div className="flex gap-4">
             <Link to="/login">

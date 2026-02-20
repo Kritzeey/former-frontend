@@ -3,7 +3,7 @@ import { Link } from "react-router";
 export default function Navbar() {
   return (
     <header className="bg-[#3373C4] h-16 absolute top-0 w-full">
-      <nav className="max-w-6xl w-full mx-auto flex justify-between items-center h-full">
+      <nav className="px-6 w-full flex justify-between items-center h-full">
         <Link className="flex text-[#F2F2F2] font-bold text-2xl gap-4" to="/">
           Former
         </Link>
