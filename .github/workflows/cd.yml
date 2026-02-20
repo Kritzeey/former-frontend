@@ -14,7 +14,7 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v6
 
       - name: Log in to GHCR
@@ -24,11 +24,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Build and Push Docker Image
+      - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/former-frontend:latest
+          tags: ghcr.io/kritzeey/former-frontend:latest
 
       - name: Deploy to Azure via SSH
         uses: appleboy/ssh-action@v1.2.5
@@ -39,7 +39,7 @@ jobs:
           script: |
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
-            docker pull ghcr.io/${{ github.repository_owner }}/former-frontend:latest
+            docker pull ghcr.io/kritzeey/former-frontend:latest
 
             docker stop frontend || true
 
@@ -49,4 +49,4 @@ jobs:
               --name frontend \
               --restart always \
               -p 80:3000 \
-              ghcr.io/${{ github.repository }}:latest
+              ghcr.io/kritzeey/former-frontend:latest
