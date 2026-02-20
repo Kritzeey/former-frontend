@@ -9,10 +9,12 @@ export default function Home() {
           <span className="text-[#86CEFA] font-bold text-8xl">Former</span>
           <span className="font-bold text-4xl">Create forms, hassle-free.</span>
           <div className="flex gap-4">
-            <Link to={"/login"}>
+            <Link to="/login">
               <Button>Log In</Button>
             </Link>
-            <Button>Browse Forms</Button>
+            <Link to="/forms">
+              <Button>Browse Forms</Button>
+            </Link>
           </div>
         </div>
       </section>
