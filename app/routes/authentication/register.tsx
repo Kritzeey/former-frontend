@@ -6,9 +6,7 @@ export default function Register() {
   return (
     <main className="h-screen w-full flex items-center justify-center">
       <form className="bg-white max-w-xl w-full rounded-3xl p-8 flex flex-col gap-8">
-        <span className="w-full text-center font-bold text-2xl">
-          Register
-        </span>
+        <span className="w-full text-center font-bold text-2xl">Register</span>
 
         <Input placeholder="Username" name="username" />
 
@@ -19,15 +17,17 @@ export default function Register() {
         <Input placeholder="Confirm Password" name="confirm password" />
 
         <span className="w-full text-center">
-          Already have an account? <Link to="/register" className="underline hover:opacity-60 duration-200">
+          Already have an account?{" "}
+          <Link
+            to="/register"
+            className="underline hover:opacity-60 duration-200"
+          >
             Login
-            </Link>
+          </Link>
         </span>
 
-        <Button>
-          Register
-        </Button>
+        <Button>Register</Button>
       </form>
     </main>
-  )
+  );
 }

@@ -5,7 +5,7 @@ interface Props {
 
 export default function Input({ placeholder, name }: Props) {
   return (
-    <input 
+    <input
       type="text"
       name={name}
       placeholder={placeholder}

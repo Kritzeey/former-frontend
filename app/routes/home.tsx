@@ -10,13 +10,9 @@ export default function Home() {
           <span className="font-bold text-4xl">Create forms, hassle-free.</span>
           <div className="flex gap-4">
             <Link to={"/login"}>
-              <Button>
-                Log In
-              </Button>
+              <Button>Log In</Button>
             </Link>
-            <Button>
-              Browse Forms
-            </Button>
+            <Button>Browse Forms</Button>
           </div>
         </div>
       </section>
