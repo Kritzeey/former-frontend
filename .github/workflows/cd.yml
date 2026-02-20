@@ -45,8 +45,6 @@ jobs:
 
             sudo docker rm frontend || true
             
-            sudo docker run -d \
-              --name frontend \
-              --restart always \
-              -p 80:3000 \
-              ghcr.io/kritzeey/former-frontend:latest
+            sudo docker compose up -d
+
+            sudo docker image prune -f
