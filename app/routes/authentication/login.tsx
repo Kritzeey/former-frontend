@@ -6,7 +6,7 @@ export default function Login() {
   return (
     <main className="h-screen w-full flex items-center justify-center">
       <form className="bg-white max-w-xl w-full rounded-3xl p-8 flex flex-col gap-8">
-        <span className="w-full text-center text-2xl">Log In</span>
+        <span className="w-full text-center text-2xl font-bold">Log In</span>
 
         <Input placeholder="Username" name="username" />
 
