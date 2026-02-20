@@ -19,10 +19,10 @@ export default function Register() {
         <span className="w-full text-center">
           Already have an account?{" "}
           <Link
-            to="/register"
+            to="/login"
             className="underline hover:opacity-60 duration-200"
           >
-            Login
+            Log in
           </Link>
         </span>
 
