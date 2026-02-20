@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import Button from "~/components/button";
 
 export default function Home() {
@@ -8,9 +9,11 @@ export default function Home() {
           <span className="text-[#86CEFA] font-bold text-8xl">Former</span>
           <span className="font-bold text-4xl">Create forms, hassle-free.</span>
           <div className="flex gap-4">
-            <Button>
-              Log In
-            </Button>
+            <Link to={"/login"}>
+              <Button>
+                Log In
+              </Button>
+            </Link>
             <Button>
               Browse Forms
             </Button>
