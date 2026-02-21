@@ -1,32 +1,5 @@
 import FormCard from "~/components/form-card";
-
-let forms = [
-  {
-    title: "Event Registration Form",
-    questions: 10,
-    responses: 2,
-  },
-  {
-    title: "Customer Satisfaction Survey",
-    questions: 10,
-    responses: 24,
-  },
-  {
-    title: "Short Quiz",
-    questions: 10,
-    responses: 56,
-  },
-  {
-    title: "Volunteer Sign-Up",
-    questions: 10,
-    responses: 2,
-  },
-  {
-    title: "Quick Review Session",
-    questions: 10,
-    responses: 42,
-  },
-];
+import { forms } from "~/constants/forms";
 
 export default function FormsList() {
   return (
@@ -36,6 +9,7 @@ export default function FormsList() {
         <div className="flex flex-col col-span-4 bg-white h-full p-6 gap-4">
           {forms.map((form) => (
             <FormCard
+              id={form.id}
               questions={form.questions}
               responses={form.responses}
               title={form.title}

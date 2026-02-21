@@ -9,6 +9,7 @@ export default [
   layout("./layouts/main-layout.tsx", [
     index("routes/home.tsx"),
     route("forms", "routes/forms/forms-list.tsx"),
+    route("forms/:id", "routes/forms/form-details.tsx"),
   ]),
 
   route("login", "routes/authentication/login.tsx"),
