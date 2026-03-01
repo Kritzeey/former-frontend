@@ -75,10 +75,9 @@ export default function CreateForm() {
 
     try {
       const token = getCookie("accessToken");
-      const apiUrl =
-        import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+      const url = getApiUrl("/api/forms");
 
-      const response = await fetch(`${apiUrl}/forms`, {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
