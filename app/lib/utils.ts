@@ -18,3 +18,14 @@ export function getCookie(name: string): string | null {
 
   return null;
 }
+
+export function getApiUrl(path: string): string {
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+
+  if (typeof document === "undefined") {
+    const internalApi = process.env.INTERNAL_API_URL || "http://backend:3000";
+    return `${internalApi}${cleanPath}`;
+  }
+
+  return cleanPath;
+}

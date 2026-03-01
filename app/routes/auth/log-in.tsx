@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import type { Route } from "./+types/log-in";
+import { getApiUrl } from "~/lib/utils";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -48,9 +49,9 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL;
+      const url = getApiUrl("/api/auth/log-in");
 
-      const response = await fetch(`${apiUrl}/auth/log-in`, {
+      const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router";
 import { Card, CardHeader, CardTitle } from "~/components/ui/card";
-import { getCookie } from "~/lib/utils";
+import { getApiUrl, getCookie } from "~/lib/utils";
 import type { Route } from "./+types/details";
 
 export function meta({ loaderData }: Route.MetaArgs) {
@@ -22,7 +22,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const id = params.id;
   const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
-  const response = await fetch(`${apiUrl}/forms/${id}`, {
+  const formsUrl = getApiUrl("/api/forms");
+
+  const response = await fetch(`${formsUrl}/${id}`, {
     headers: {
       "Content-Type": "application/json",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),

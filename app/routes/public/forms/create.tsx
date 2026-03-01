@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { getCookie } from "~/lib/utils";
+import { getApiUrl, getCookie } from "~/lib/utils";
 import type { Route } from "./+types/create";
 
 export function meta() {
@@ -32,9 +32,10 @@ export async function clientLoader() {
     return redirect("/log-in");
   }
 
+  const formsUrl = getApiUrl("/api/forms");
+
   try {
-    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
-    const response = await fetch(`${apiUrl}/auth/me`, {
+    const response = await fetch(formsUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

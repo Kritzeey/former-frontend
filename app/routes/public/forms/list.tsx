@@ -1,7 +1,7 @@
 import FormCard from "~/components/form-card";
 import { Button } from "~/components/ui/button";
 import { Link, useLoaderData } from "react-router";
-import { getCookie } from "~/lib/utils";
+import { getCookie, getApiUrl } from "~/lib/utils";
 import { useState } from "react";
 import type { Route } from "./+types/list";
 
@@ -14,17 +14,19 @@ export function meta() {
 
 export async function clientLoader() {
   const token = getCookie("accessToken");
-  const apiUrl = import.meta.env.VITE_API_URL;
+
+  const formsUrl = getApiUrl("/api/forms");
+  const authUrl = getApiUrl("/api/auth/me");
 
   const [formsResponse, userResponse] = await Promise.all([
-    fetch(`${apiUrl}/forms`, {
+    fetch(formsUrl, {
       headers: {
         "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     }),
     token
-      ? fetch(`${apiUrl}/auth/me`, {
+      ? fetch(authUrl, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
