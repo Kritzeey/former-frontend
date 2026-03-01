@@ -98,10 +98,9 @@ export default function EditForm() {
 
     try {
       const token = getCookie("accessToken");
-      const apiUrl =
-        import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+      const url = getApiUrl(`/api/forms/${form.id}`);
 
-      const response = await fetch(`${apiUrl}/forms/${form.id}`, {
+      const response = await fetch(url, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

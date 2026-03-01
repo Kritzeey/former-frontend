@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
-import { getCookie } from "~/lib/utils";
+import { getApiUrl, getCookie } from "~/lib/utils";
 import { Loader2 } from "lucide-react";
 import {
   AlertDialog,
@@ -43,10 +43,10 @@ export default function FormCard({
     setIsDeleting(true);
 
     try {
+      const url = getApiUrl(`/api/forms/${form.id}`);
       const token = getCookie("accessToken");
-      const apiUrl = import.meta.env.VITE_SERVER_URL;
 
-      const response = await fetch(`${apiUrl}/forms/${form.id}`, {
+      const response = await fetch(url, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
