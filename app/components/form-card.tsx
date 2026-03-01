@@ -100,12 +100,7 @@ export default function FormCard({
                 Delete
               </Button>
               <Link to={`/forms/${form.id}/edit`}>
-                <Button
-                  variant="outline"
-                  className="rounded-md cursor-pointer hover:opacity-90"
-                >
-                  Edit
-                </Button>
+                <Button variant="outline">Edit</Button>
               </Link>
             </>
           )}

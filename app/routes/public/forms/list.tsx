@@ -1,8 +1,19 @@
 import FormCard from "~/components/form-card";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
-import { Link, useLoaderData, useNavigate, useSearchParams } from "react-router";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+import {
+  Link,
+  useLoaderData,
+  useNavigate,
+  useSearchParams,
+} from "react-router";
 import { getCookie, getApiUrl } from "~/lib/utils";
 import { useState, useEffect } from "react";
 import type { Route } from "./+types/list";
@@ -17,7 +28,7 @@ export function meta() {
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const token = getCookie("accessToken");
   const url = new URL(request.url);
-  
+
   const search = url.searchParams.get("search") || "";
   const status = url.searchParams.get("status") || "";
   const sortBy = url.searchParams.get("sortBy") || "desc";
@@ -74,7 +85,7 @@ export default function Forms() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
-   const handleRemoveForm = (idToRemove: string | number) => {
+  const handleRemoveForm = (idToRemove: string | number) => {
     setLocalForms((prevForms) => prevForms.filter((f) => f.id !== idToRemove));
   };
 
@@ -105,22 +116,25 @@ export default function Forms() {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Search</label>
-              <Input 
-                placeholder="Search title..." 
+              <Input
+                placeholder="Search title..."
                 defaultValue={searchParams.get("search") || ""}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") handleFilterChange("search", e.currentTarget.value);
+                  if (e.key === "Enter")
+                    handleFilterChange("search", e.currentTarget.value);
                 }}
               />
             </div>
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Status</label>
-              <Select 
+              <Select
                 onValueChange={(v) => handleFilterChange("status", v)}
                 defaultValue={searchParams.get("status") || "all"}
               >
-                <SelectTrigger><SelectValue placeholder="All Status" /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue placeholder="All Status" />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All</SelectItem>
                   <SelectItem value="active">Active</SelectItem>
@@ -131,11 +145,13 @@ export default function Forms() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Sort By Date</label>
-              <Select 
+              <Select
                 onValueChange={(v) => handleFilterChange("sortBy", v)}
                 defaultValue={searchParams.get("sortBy") || "desc"}
               >
-                <SelectTrigger><SelectValue placeholder="Newest" /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue placeholder="Newest" />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="desc">Newest</SelectItem>
                   <SelectItem value="asc">Oldest</SelectItem>

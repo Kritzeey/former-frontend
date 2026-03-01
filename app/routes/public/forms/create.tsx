@@ -71,38 +71,29 @@ export default function CreateForm() {
   });
 
   const onSubmit = async (data: CreateFormDto) => {
-    setIsLoading(true);
+  setIsLoading(true);
+  try {
+    const token = getCookie("accessToken");
+    const response = await fetch(getApiUrl("/api/forms"), {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json", 
+        Authorization: `Bearer ${token}` 
+      },
+      body: JSON.stringify(data),
+    });
 
-    try {
-      const token = getCookie("accessToken");
-      const url = getApiUrl("/api/forms");
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message);
 
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Something went wrong");
-      }
-
-      toast.success("Form created successfully");
-      navigate("/forms");
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error("An unexpected error occurred");
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    // redirect to the edit page where the ID is now valid
+    navigate(`/forms/${result.form.id}/edit`); 
+  } catch (error) {
+    toast.error("Failed to create form");
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <main className="w-full h-dvh flex items-center justify-center">
