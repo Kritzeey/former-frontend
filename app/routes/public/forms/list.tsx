@@ -14,7 +14,7 @@ export function meta() {
 
 export async function clientLoader() {
   const token = getCookie("accessToken");
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const [formsResponse, userResponse] = await Promise.all([
     fetch(`${apiUrl}/forms`, {
