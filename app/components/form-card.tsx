@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
-import { getApiUrl, getCookie } from "~/lib/utils";
+import { getCookie, getApiUrl } from "~/lib/utils";
 import { Loader2 } from "lucide-react";
 import {
   AlertDialog,
@@ -43,8 +43,8 @@ export default function FormCard({
     setIsDeleting(true);
 
     try {
-      const url = getApiUrl(`/api/forms/${form.id}`);
       const token = getCookie("accessToken");
+      const url = getApiUrl(`/api/forms/${form.id}`);
 
       const response = await fetch(url, {
         method: "DELETE",
@@ -99,7 +99,7 @@ export default function FormCard({
               >
                 Delete
               </Button>
-              <Link to={`/forms/edit/${form.id}`}>
+              <Link to={`/forms/${form.id}/edit`}>
                 <Button
                   variant="outline"
                   className="rounded-md cursor-pointer hover:opacity-90"
