@@ -10,7 +10,7 @@ import {
 
 import type { Route } from "./+types/root";
 
-import "./index.css";
+import "./app.css";
 import { Toaster } from "./components/ui/sonner";
 import { Loader2 } from "lucide-react";
 import { getCookie } from "~/lib/utils";

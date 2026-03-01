@@ -1,7 +1,7 @@
-import FormCard from "@/components/form-card";
-import { Button } from "@/components/ui/button";
+import FormCard from "~/components/form-card";
+import { Button } from "~/components/ui/button";
 import { Link, useLoaderData } from "react-router";
-import { getCookie } from "@/lib/utils";
+import { getCookie } from "~/lib/utils";
 import { useState } from "react";
 import type { Route } from "./+types/list";
 
