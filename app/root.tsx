@@ -13,7 +13,7 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { Toaster } from "./components/ui/sonner";
 import { Loader2 } from "lucide-react";
-import { getCookie } from "~/lib/utils";
+import { getApiUrl, getCookie } from "~/lib/utils";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -35,10 +35,10 @@ export async function clientLoader() {
     return { user: null };
   }
 
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+  const url = getApiUrl("/api/auth/me");
 
   try {
-    const response = await fetch(`${apiUrl}/auth/me`, {
+    const response = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
