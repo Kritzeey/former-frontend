@@ -1,87 +1,171 @@
-# Welcome to React Router!
+### Prerequisites
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Ensure the following tools are installed
+* Docker
+* Docker Compose
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+### Expected Directory Structure
 
-## Features
+```text
+ristek/
+├── former-frontend/
+│   ├── Dockerfile
+│   ├── package.json
+│   └── ...
+├── former-backend/
+│   ├── Dockerfile
+│   ├── package.json
+│   └── ...
+├── docker-compose.yml
+└── nginx.conf
+```
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+### Environment Variables
 
-## Getting Started
+**Database (`db`)**
 
-### Installation
+* `POSTGRES_USER`: Database username
+* `POSTGRES_PASSWORD`: Database password
+* `POSTGRES_DB`: Target database name
 
-Install the dependencies:
+**Backend (`backend`)**
+
+* `DATABASE_URL`: Connection string formatted as `postgres://<user>:<password>@db:5432/<dbname>`
+* `PORT`: Internal port for the Node.js application (must match the Express listen port)
+* `JWT_SECRET`: Secret key for cryptographic token signing
+
+**Frontend (`frontend`)**
+
+* `PORT`: Internal port for the frontend server
+
+### Configuration Files
+
+Create the following files in the root `ristek-project/` directory alongside the cloned repositories.
+
+**docker-compose.yml**
+
+```yaml
+services:
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: valhize
+      POSTGRES_PASSWORD: password_that_is_very_secret_wow
+      POSTGRES_DB: ristek_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U valhize -d ristek_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./former-backend
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      DATABASE_URL: postgres://valhize:password_that_is_very_secret_wow@db:5432/ristek_db
+      PORT: 3000
+      JWT_SECRET: your_jwt_secret
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./former-frontend
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      PORT: 3000
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  postgres_data:
+
+```
+
+**nginx.conf**
+
+```nginx
+events {
+    worker_connections 1024;
+}
+
+http {
+    server {
+        listen 80;
+
+        location ^~ /api/ {
+            proxy_pass http://backend:3000;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_cache_bypass $http_upgrade;
+        }
+
+        location / {
+            proxy_pass http://frontend:3000;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_cache_bypass $http_upgrade;
+        }
+    }
+}
+
+```
+
+### Execution Commands
+
+Navigate to the parent directory containing the `docker-compose.yml` file and execute the following commands.
+
+To build the images from source and start the containers in detached mode:
 
 ```bash
-npm install
+docker-compose up -d --build
+
 ```
 
-### Development
-
-Start the development server with HMR:
+To view the real-time logs of all running services:
 
 ```bash
-npm run dev
+docker-compose logs -f
+
 ```
 
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
+To stop and remove the containers:
 
 ```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
+docker-compose down
 
 ```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
 
-## Styling
+### Accessing the Application
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+Once the deployment commands execute successfully, the Nginx reverse proxy will route incoming traffic on port 80:
 
----
-
-Built with ❤️ using React Router.
+* **Frontend Client:** `http://<your-server-ip>/` (localhost if running locally)
+* **Backend API:** `http://<your-server-ip>/api/` (localhost if running locally)
